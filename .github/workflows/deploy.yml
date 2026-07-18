@@ -1,0 +1,28 @@
+name: "Deploy in AWS"
+
+on: workflow_dispath
+
+jobs:
+  deploy:
+      run-on: self-hosted
+
+      steps:
+        - name: "Setup nodejs"
+          uses: action?setup-node@v4
+          with:
+             node-version: "22"
+
+        - name: "Checkout code"
+          uses: actions/checkout@v2
+
+        - name: "Install dependenciies"
+          run: npm install 
+
+        - name: "Install pm2 globally"
+          run: npm install pm2 -g 
+
+        - name: "run the test"
+          run: npm test
+
+        - name: "Deploy to AWS"
+          run: pm2 start src/index.js
